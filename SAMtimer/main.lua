@@ -435,19 +435,35 @@ end
 
 ---------------------------------------------------------------- interaction
 
--- tap a row to select a round (e.g. to re-fly it), only while stopped
+-- select round i (clamped), only while stopped
+local function selectRound(widget, i)
+    if i < 1 then i = 1 end
+    if i > totalRounds(widget) then i = totalRounds(widget) end
+    widget.current = i
+    widget.lastIdx = nil
+    saveResults(widget)
+    lcd.invalidate()
+end
+
+-- tap a row or turn the rotary encoder to select a round (e.g. to re-fly it), only while stopped
 local function event(widget, category, value, x, y)
-    if category == EVT_TOUCH and value == TOUCH_END and not widget.running then
+    if widget.running then return false end
+    if category == EVT_TOUCH and value == TOUCH_END then
         if x and x >= (widget.tableX or 0) then
             for i, r in pairs(widget.rows) do
                 if y >= r.y and y < r.y + r.h then
-                    widget.current = i
-                    widget.lastIdx = nil
-                    saveResults(widget)
-                    lcd.invalidate()
+                    selectRound(widget, i)
                     return true
                 end
             end
+        end
+    elseif category == EVT_KEY then
+        if value == KEY_ROTARY_RIGHT then
+            selectRound(widget, widget.current + 1)
+            return true
+        elseif value == KEY_ROTARY_LEFT then
+            selectRound(widget, widget.current - 1)
+            return true
         end
     end
     return false
@@ -458,18 +474,8 @@ local function menu(widget)
     if widget.running then return {} end
     return {
         { t.mReset, function() resetAll(widget) end },
-        { t.mPrev, function()
-            if widget.current > 1 then widget.current = widget.current - 1 end
-            widget.lastIdx = nil
-            saveResults(widget)
-            lcd.invalidate()
-        end },
-        { t.mNext, function()
-            if widget.current < totalRounds(widget) then widget.current = widget.current + 1 end
-            widget.lastIdx = nil
-            saveResults(widget)
-            lcd.invalidate()
-        end },
+        { t.mPrev, function() selectRound(widget, widget.current - 1) end },
+        { t.mNext, function() selectRound(widget, widget.current + 1) end },
     }
 end
 
