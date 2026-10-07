@@ -70,6 +70,7 @@ The widget follows the radio language: English, Czech, Slovak and Hungarian are 
 ### Selecting a round and re-flying it
 
 - **Touch:** tap a row in the table to make it the current round. This only works while the timer is stopped. The next timing overwrites that round's earlier time.
+- **Rotary encoder:** turn right for the next round, left for the previous one. This only works while the timer is stopped and the widget is selected (or full screen).
 - **Widget menu** (long-press the widget, only while the timer is stopped):
   - **New contest (clear all)**
   - **Previous round**
@@ -121,7 +122,7 @@ Widget configuration panel (long-press → **Configure**):
 
 Requirement: the `bsongis.ethos` VS Code extension, set to the X20S, EU, nightly26 simulator.
 
-1. In the status bar, click `X20S_EU` and choose **Deploy ALOT**. This copies the `.lua` files from `my-scripts/alot/` into the simulator's `scripts/alot/` folder.
+1. In the status bar, click `X20S_EU` and choose **Deploy ALOT**. This copies the `.lua` files from `my-scripts/SAM/SAMtimer/` into the simulator's `scripts/alot/` folder.
 2. Choose **Start SIM**, then **Open Display**.
 3. For a quick test, set these in the widget settings:
    - Max time = 10 s;
