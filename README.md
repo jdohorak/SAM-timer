@@ -147,4 +147,4 @@ Requirement: the `bsongis.ethos` VS Code extension, set to the X20S, EU, nightly
 | `README.md` | This document |
 | `res_<modelname>.txt` | Results file, created automatically on the radio |
 
-The developer specification is in `D:\FRSKY\AI\ALOT\claude.md`.
+
